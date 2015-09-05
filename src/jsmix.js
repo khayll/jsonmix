@@ -13,6 +13,11 @@
         this.data = data || {};
     }
 	
+    /**
+     * Method to map object prototype with a path in the data object
+     * @param {prototype} prototype of the object to be mapped onto the data
+     * @param {string} path to where the data objects are. Example: employees/*
+     */
 	JSMix.prototype.withObject = function(prototype, path) {
         var target = Object.create(prototype);
         for (var property in this.data[path]) {
@@ -24,6 +29,9 @@
 		return this;
 	}
 	
+    /**
+     * Returns the mixed object
+     */
 	JSMix.prototype.build = function() {
 		return this.data;
 	}
