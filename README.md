@@ -38,10 +38,13 @@ Which will then log "John Doe" for you.
 
 A slightly more complex example would look like:
 
-	var result = JSMix(sampleData)
+	var result = JSMix(data)
 		.withObject(Employee.prototype, "employees")
 		.withObject(Pet.prototype, "employees.pet")
 		.build();
+		
+	//now result has every model class mixed in
+	console.log(result.epmloyees[1].getName()); 
  
  So the parameter to the JSMix(data) call, data could be a JSON string, or an object. The build() just returns the object, with all classes mixed.
  The withObject(prototype, path) call is the one to define class mappings.
@@ -49,5 +52,6 @@ A slightly more complex example would look like:
  JSMix will find out if an object is an array, and will recursively apply the remaining part of the path to every item in it.
  You can also use "*" in the path, and this will apply the remaining path to every item in the object (even if it's not an array).
      
- 
+ You can use playground.html as a tutorial, or just to play around with jsmix.
+  
  
