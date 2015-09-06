@@ -46,7 +46,8 @@ A slightly more complex example would look like:
 	//now result has every model class mixed in
 	console.log(result.epmloyees[1].getName()); 
  
- So the parameter to the JSMix(data) call, data could be a JSON string, or an object. The build() just returns the object, with all classes mixed.
+ So the parameter to the JSMix(data) call, data, could be a JSON string, or an object.
+ The build() just returns the object with all classes mixed.
  The withObject(prototype, path) call is the one to define class mappings.
  Here "path" can be any chain of nested objects separated with a dot. For example in this case "epmloyees.pet".
  JSMix will find out if an object is an array, and will recursively apply the remaining part of the path to every item in it.
