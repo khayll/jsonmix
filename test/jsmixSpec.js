@@ -5,13 +5,21 @@ var sampleData = {
 			"firstName": "John",
 			"lastName": "Doe",
 			"salary": 100000,
-			"age": 33	
+			"age": 33,
+			"pet": {
+				"name": "Jerry",
+				"likes": "cheese"
+			}	
 		},
 		{
 			"firstName": "Romeo",
 			"lastName": "Alfa",
 			"salary": 150000,
-			"age": 34
+			"age": 34,
+			"pet": {
+				"name": "WALL-E",
+				"Earth"
+			}
 		}
 	],
 	"department": {
