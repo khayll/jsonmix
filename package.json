@@ -1,6 +1,6 @@
 {
   "name": "jsmix",
-  "version": "1.0.0",
+  "version": "v0.1.1-beta",
   "description": "A simple tool to easily map data onto model objects.",
   "main": "jsmix.js",
   "scripts": {

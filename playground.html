@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<script type="text/javascript" src="src/jsmix.js"></script>
+		<script type="text/javascript" src="test/helpers/Employee.js"></script>
+		<script type="text/javascript" src="test/helpers/Department.js"></script>
+		<script type="text/javascript" src="test/helpers/Pet.js"></script>
+	</head>
+	<body>
+		<script>
+			var sampleData = {
+				"employees": [
+					{
+						"firstName": "John",
+						"lastName": "Doe",
+						"salary": 100000,
+						"age": 33,
+						"pet": {
+							name: "Buggs Bunny",
+							like: "carrot"
+						}
+					},
+					{
+						"firstName": "Romeo",
+						"lastName": "Alfa",
+						"salary": 150000,
+						"age": 34,
+						"pet": {
+							name: "Jerry",
+							like: "cheese"
+						}
+					}
+				],
+				"department": {
+					"name": "Most important ever",
+					"location": "Center of the World"
+				}
+			}			
+			var result = JSMix(sampleData)
+				.withObject(Employee.prototype, "employees")
+				.withObject(Pet.prototype, "employees.pet")
+				.build();
+
+			console.log(result);
+		</script>
+	</body>
+</html>
