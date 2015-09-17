@@ -52,6 +52,9 @@ A slightly more complex example would look like:
  Here "path" can be any chain of nested objects separated with a dot. For example in this case "epmloyees.pet".
  JSMix will find out if an object is an array, and will recursively apply the remaining part of the path to every item in it.
  You can also use "*" in the path, and this will apply the remaining path to every item in the object (even if it's not an array).
+ 
+     //this recursively applies the same prototype 3 levels deep
+     JSMix(data).withObject(Comparable.prototype, "*.*.*").build();
      
  You can use playground.html as a tutorial, or just to play around with jsmix.
   
