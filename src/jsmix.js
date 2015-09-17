@@ -45,13 +45,16 @@
             if ( notArray(parent[currentPart]) && currentPart !== '*' ) {
                 parent[currentPart] = mixRecursive(prototype, parent[currentPart], newParts);
             } else {
-                if ( currentPart === '*') {
+                if ( currentPart === '*' ) {
                     for (var property in parent) {
                         if (parent.hasOwnProperty(property)) {
                             parent[property] = mixRecursive(prototype, parent[property], newParts);
                         }
                     }
                 } else {
+                    if ( newParts[0] === '*' ) {
+                        newParts.shift();
+                    }
                     parent[currentPart].forEach( function (value, index) {
                         parent[currentPart][index] = mixRecursive(prototype, parent[currentPart][index], newParts);
                     });

@@ -35,12 +35,15 @@
 					"location": "Center of the World"
 				}
 			}			
+			var result = JSMix(sampleData).withObject(Pet.prototype, "employees.*.pet").build();
+			console.log(result);
+			/*
 			var result = JSMix(sampleData)
 				.withObject(Employee.prototype, "employees")
 				.withObject(Pet.prototype, "employees.pet")
 				.build();
-
 			console.log(result);
+			*/
 		</script>
 	</body>
 </html>
