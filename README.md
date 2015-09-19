@@ -4,7 +4,11 @@ A simple tool to easily map data onto model objects. In other words this tool he
 This is a WIP project, but it's already usable. There's no minified version yet, that should be almost the next thing I'll do.  
 
 ## How to use
-Here's how it works in real life. You still need to define your model on the client side:
+Here's how it works in real life. First of course you need to include JSMix.
+
+    <script type="text/javascript" src="jsmix.js"></script>
+
+Use or create your model on the client side:
 
 	var Employee = function() {
 	}
