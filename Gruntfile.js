@@ -14,4 +14,5 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', 'jasmine');
+  grunt.registerTask('test', ['jasmine']);
 };
