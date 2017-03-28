@@ -1,18 +1,18 @@
 {
-  "name": "jsmix",
-  "version": "v0.1.1-beta",
-  "description": "A simple tool to easily map data onto model objects.",
-  "main": "jsmix.js",
+  "name": "jsonmix",
+  "version": "v1.0.0",
+  "description": "Easy to use deserialisation from JSON into JavaScript Objects complete with functions",
+  "main": "jsonmix.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/khayll/jsmix.git"
+    "url": "git+https://github.com/khayll/jsonmix.git"
   },
   "keywords": [
     "JavaScript",
-    "deserialize",
+    "deserialise",
     "model",
     "json",
     "mixin"
@@ -20,12 +20,18 @@
   "author": "Balázs Korossy-Khayll",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/khayll/jsmix/issues"
+    "url": "https://github.com/khayll/jsonmix/issues"
   },
-  "homepage": "https://github.com/khayll/jsmix#readme",
-  "dependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-jasmine": "^0.9.1",
-    "jasmine": "^2.3.2"
+  "homepage": "https://github.com/khayll/jsonmix#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.0",
+    "babel-register": "^6.24.0",
+    "del": "^2.2.2",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-cli": "^1.2.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-typescript": "^3.1.6",
+    "gulp-uglify": "^2.1.2",
+    "typescript": "^2.2.1"
   }
 }
