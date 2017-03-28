@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "es3",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "declaration": true,
+    "outFile": "jsonmix.js",
+    "lib": [
+      "ES2015",
+      "DOM",
+      "ES5",
+      "ScriptHost"
+    ]
+  },
+  "files": [
+    "src/jsonmix.ts"
+  ]
+}
