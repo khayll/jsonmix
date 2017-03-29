@@ -4,6 +4,7 @@
   "description": "Easy to use deserialisation from JSON into JavaScript Objects complete with functions",
   "main": "jsonmix.js",
   "scripts": {
+    "build": "gulp build",
     "test": "gulp test"
   },
   "repository": {
@@ -29,9 +30,11 @@
     "del": "^2.2.2",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-cli": "^1.2.2",
+    "gulp-jasmine": "^2.4.2",
     "gulp-rename": "^1.2.2",
     "gulp-typescript": "^3.1.6",
     "gulp-uglify": "^2.1.2",
+    "jasmine": "^2.5.3",
     "typescript": "^2.2.1"
   }
 }

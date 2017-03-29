@@ -3,11 +3,13 @@ import del from 'del';
 import typescript from 'gulp-typescript';
 import uglify from 'gulp-uglify';
 import rename from 'gulp-rename';
+import jasmine from 'gulp-jasmine';
 
 const paths = {
     dist: './dist/',
     src: {
-        ts: './src/**/*.ts'
+        ts: './src/**/*.ts',
+        spec: './test/**/*.spec.js'
     },
     tsConfig: './tsconfig.json'
 }
@@ -23,6 +25,11 @@ export function scripts() {
         .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(paths.dist));
+}
+
+export function test() {
+    gulp.src(paths.src.spec)
+        .pipe(jasmine());
 }
 
 export function watch() {

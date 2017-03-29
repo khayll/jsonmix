@@ -5,7 +5,8 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "declaration": true,
-    "outFile": "jsonmix.js",
+    "module": "umd",
+    "outDir": "dist",
     "lib": [
       "ES2015",
       "DOM",
