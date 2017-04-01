@@ -5,9 +5,9 @@ A simple tool to easily map data onto model objects. In other words this tool he
 This is a WIP project, but it's already usable. There's no minified version yet, that should be almost the next thing I'll do.  
 
 ## How to use
-Here's how it works in real life. First of course you need to include JSMix.
+Here's how it works in real life. First of course you need to include JsonMix.
 
-    <script type="text/javascript" src="jsmix.js"></script>
+    <script type="text/javascript" src="jsons"></script>
 
 Use or create your model on the client side:
 
@@ -33,7 +33,7 @@ you could say in AngularJS (for example):
 
 	http.get("/getAnEmployee").then( function(result) {
 		console.log(
-			JSMix(result).withObject(Employee.prototype, "employee").build().getName()
+			JsonMix(result).withObject(Employee.prototype, "employee").build().getName()
 		);
 	});
 
@@ -43,7 +43,7 @@ Which will then log "John Doe" for you.
 
 A slightly more complex example would look like:
 
-	var result = JSMix(data)
+	var result = JsonMix(data)
 		.withObject(Employee.prototype, "employees")
 		.withObject(Pet.prototype, "employees.pet")
 		.build();
@@ -51,16 +51,16 @@ A slightly more complex example would look like:
 	//now result has every model class mixed in
 	console.log(result.epmloyees[1].getName()); 
  
- So the parameter to the JSMix(data) call, data, could be a JSON string, or an object.
+ So the parameter to the JsonMix(data) call, data, could be a JSON string, or an object.
  The build() just returns the object with all classes mixed.
  The withObject(prototype, path) call is the one to define class mappings.
  Here "path" can be any chain of nested objects separated with a dot. For example in this case "epmloyees.pet".
- JSMix will find out if an object is an array, and will recursively apply the remaining part of the path to every item in it.
+ JsonMix will find out if an object is an array, and will recursively apply the remaining part of the path to every item in it.
  You can also use "*" in the path, and this will apply the remaining path to every item in the object (even if it's not an array).
  
      //this recursively applies the same prototype 3 levels deep
-     JSMix(data).withObject(Comparable.prototype, "*.*.*").build();
+     JsonMix(data).withObject(Comparable.prototype, "*.*.*").build();
      
- You can use playground.html as a tutorial, or just to play around with jsmix.
+ You can use playground.html as a tutorial, or just to play around with JsonMix.
   
  
