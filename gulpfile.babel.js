@@ -29,7 +29,7 @@ export function scripts() {
 
 export function test() {
     return gulp.src(paths.spec)
-        .pipe(jasmine());
+        .pipe(jasmine({includeStackTrace: true}));
 }
 
 export function watch() {

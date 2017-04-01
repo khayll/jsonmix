@@ -37,22 +37,23 @@ export default class JsonMix {
     }
 
     private mixRecursive<T>(T: new () => T, parent: any, parts: Array<string>): any {
-        var newParts = Array.from(parts);
-        var currentPart = newParts.shift();
+        const newParts = Array.from(parts);
+        const currentPart = newParts.shift();
+
         if (parts.length === 0) {
             return this.mix(T, parent);
         }
         if (this.isObject(parent[currentPart]) || currentPart === '*') {
-            if (this.notArray(parent[currentPart]) && currentPart !== '*') {
+            if (!this.isArray(parent[currentPart]) && currentPart !== '*') {
                 parent[currentPart] = this.mixRecursive(T, parent[currentPart], newParts);
             } else {
-                if (currentPart === '*') {
-                    for (var property in parent) {
+                if (currentPart === '*' && this.isObject(parent)) {
+                    for (let property in parent) {
                         if (parent.hasOwnProperty(property)) {
                             parent[property] = this.mixRecursive(T, parent[property], newParts);
                         }
                     }
-                } else {
+                } else if ( this.isArray(parent[currentPart]) ) {
                     if (newParts[0] === '*') {
                         newParts.shift();
                     }
@@ -67,8 +68,11 @@ export default class JsonMix {
     }
 
     private mix<T>(T: new () => T, data: any): any {
+        if ( !this.isObject(data) ) {
+            return data;
+        }
         let target: T = new T();
-        for (var property in data) {
+        for (let property in data) {
             if (data.hasOwnProperty(property)) {
                 (<any>target)[property] = data[property];
             }
@@ -90,11 +94,11 @@ export default class JsonMix {
         return false;
     }
 
-    private notArray(object: any): boolean {
+    private isArray(object: any): boolean {
         if (object instanceof Array) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private isObject(input: any): boolean {
