@@ -8,9 +8,9 @@ import jasmine from 'gulp-jasmine';
 const paths = {
     dist: './dist/',
     src: {
-        ts: './src/**/*.ts',
-        spec: './test/**/*.spec.js'
+        ts: './src/**/*.ts'
     },
+    spec: './spec/**/*.spec.js',
     tsConfig: './tsconfig.json'
 }
 
@@ -28,14 +28,13 @@ export function scripts() {
 }
 
 export function test() {
-    gulp.src(paths.src.spec)
+    return gulp.src(paths.spec)
         .pipe(jasmine());
 }
 
 export function watch() {
-  gulp.watch(paths.src.ts, scripts);
-  gulp.watch(paths.styles.src, styles);
+  gulp.watch(paths.src.ts, gulp.series(scripts, test));
 }
 
-const build = gulp.series(clean, scripts);
+export const build = gulp.series(clean, scripts);
 export default build;
