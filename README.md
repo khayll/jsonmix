@@ -7,7 +7,7 @@ This is a WIP project, but it's already usable. There's no minified version yet,
 ## How to use
 Here's how it works in real life. First of course you need to include JsonMix.
 
-    <script type="text/javascript" src="jsons"></script>
+    <script type="text/javascript" src="jsonmix.min.js"></script>
 
 Use or create your model on the client side:
 
