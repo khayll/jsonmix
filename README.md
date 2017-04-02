@@ -1,6 +1,6 @@
 JsonMix [![Build Status](https://travis-ci.org/khayll/jsonmix.svg?branch=master)](https://travis-ci.org/khayll/jsonmix)
 ========
-JsonMix provides a kind of deserializaions from JSON into JavaScript Objects complete with functions.
+JsonMix provides a kind of deserialisation from JSON into JavaScript Objects complete with functions.
 
 ## How to use
 Here's how it works in real life. First of course you need to include JsonMix.
