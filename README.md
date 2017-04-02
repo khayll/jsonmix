@@ -33,7 +33,7 @@ you could say in AngularJS (for example):
 
 	http.get("/getAnEmployee").then( function(result) {
 		console.log(
-			JsonMix(result).withObject(Employee.prototype, "employee").build().getName()
+			JsonMix(result).withObject(Employee, "employee").build().getName()
 		);
 	});
 
@@ -44,8 +44,8 @@ Which will then log "John Doe" for you.
 A slightly more complex example would look like:
 
 	var result = JsonMix(data)
-		.withObject(Employee.prototype, "employees")
-		.withObject(Pet.prototype, "employees.pet")
+		.withObject(Employee, "employees")
+		.withObject(Pet, "employees.pet")
 		.build();
 		
 	//now result has every model class mixed in
@@ -59,7 +59,7 @@ A slightly more complex example would look like:
  You can also use "*" in the path, and this will apply the remaining path to every item in the object (even if it's not an array).
  
      //this recursively applies the same prototype 3 levels deep
-     JsonMix(data).withObject(Comparable.prototype, "*.*.*").build();
+     JsonMix(data).withObject(Comparable, "*.*.*").build();
      
  You can use playground.html as a tutorial, or just to play around with JsonMix.
   
