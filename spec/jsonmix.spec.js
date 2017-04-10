@@ -59,6 +59,18 @@ var sampleData2 = {
 	}
 }
 
+describe("JsonMix - non collection objects", function () {
+	let data;
+
+	beforeEach(function () {
+		data = JSON.parse(JSON.stringify(sampleData2));
+	});
+
+	it("it's type is department", function () {
+		var result = JsonMix(data).withObject(Department).build();
+		expect(result).toEqual(jasmine.any(Department));
+	});
+});
 
 describe("JsonMix - non collection objects", function () {
 

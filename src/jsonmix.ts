@@ -9,7 +9,7 @@ export default class JsonMix {
     private data: any;
 
     /**
-     * 
+     * constructor is the only place to feed the jsno data
      * @param data either a JSON string or an object
      */
     constructor(data: any) {
@@ -71,17 +71,12 @@ export default class JsonMix {
         if ( !this.isObject(data) ) {
             return data;
         }
-        let target: T = new T();
-        for (let property in data) {
-            if (data.hasOwnProperty(property)) {
-                (<any>target)[property] = data[property];
-            }
-        }
-        return target;
+        data.prototype = T.prototype;
+        return data;
     }
 
     /**
-     * Returns the mixed object
+     * all things end here
      */
     public build(): any {
         return this.data;
