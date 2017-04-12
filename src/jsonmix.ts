@@ -71,13 +71,11 @@ export default class JsonMix {
         if ( !this.isObject(data) ) {
             return data;
         }
-        data.prototype = T.prototype;
+        let target = new T();        
+        data.prototype = (<any>target).prototype;
         return data;
     }
 
-    /**
-     * all things end here
-     */
     public build(): any {
         return this.data;
     }
