@@ -71,6 +71,9 @@ export default class JsonMix {
         if ( !this.isObject(data) ) {
             return data;
         }
+        data.prototype = T.prototype;
+        return data;
+        /*
         let target: T = new T();
         for (let property in data) {
             if (data.hasOwnProperty(property)) {
@@ -78,6 +81,7 @@ export default class JsonMix {
             }
         }
         return target;
+        */
     }
 
     public build(): any {

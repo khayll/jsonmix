@@ -68,6 +68,7 @@ describe("JsonMix - non collection objects", function () {
 
 	it("it's type is department", function () {
 		var result = JsonMix(data).withObject(Department).build();
+		console.info(result);
 		expect(result).toEqual(jasmine.any(Department));
 	});
 });
