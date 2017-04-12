@@ -53,7 +53,7 @@ export default class JsonMix {
                             parent[property] = this.mixRecursive(T, parent[property], newParts);
                         }
                     }
-                } else if ( this.isArray(parent[currentPart]) ) {
+                } else if (this.isArray(parent[currentPart])) {
                     if (newParts[0] === '*') {
                         newParts.shift();
                     }
@@ -68,10 +68,17 @@ export default class JsonMix {
     }
 
     private mix<T>(T: new () => T, data: any): any {
-        if ( !this.isObject(data) ) {
+        if (!this.isObject(data)) {
             return data;
         }
-        return Object.create(T, data);
+        let target: T = new T();
+        // a shallow copy should ne enough, since the source is a JSON
+        for (let property in data) {
+            if (data.hasOwnProperty(property)) {
+                (<any>target)[property] = data[property];
+            }
+        }
+        return target;
     }
 
     public build(): any {
@@ -93,10 +100,7 @@ export default class JsonMix {
     }
 
     private isObject(input: any): boolean {
-        if (input instanceof Object) {
-            return true;
-        }
-        return false;
+        return input !== null && typeof input === 'object';
     }
 
 }

@@ -27,7 +27,7 @@ export function scripts() {
         .pipe(gulp.dest(paths.dist));
 }
 
-export function test() {
+function unitTest() {
     return gulp.src(paths.spec)
         .pipe(jasmine({includeStackTrace: true}));
 }
@@ -37,4 +37,5 @@ export function watch() {
 }
 
 export const build = gulp.series(clean, scripts);
+export const test = gulp.series(build, unitTest);
 export default build;

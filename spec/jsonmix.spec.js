@@ -59,7 +59,7 @@ var sampleData2 = {
 	}
 }
 
-describe("JsonMix - non collection objects", function () {
+describe("General", function () {
 	let data;
 
 	beforeEach(function () {
@@ -73,7 +73,7 @@ describe("JsonMix - non collection objects", function () {
 	});
 });
 
-describe("JsonMix - non collection objects", function () {
+describe("Non collection objects", function () {
 
 	let data;
 
