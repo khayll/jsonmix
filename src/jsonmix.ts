@@ -71,9 +71,13 @@ export default class JsonMix {
         if ( !this.isObject(data) ) {
             return data;
         }
-        let target = new T();        
-        data.prototype = (<any>target).prototype;
-        return data;
+        let target: T = new T();
+        for (let property in data) {
+            if (data.hasOwnProperty(property)) {
+                (<any>target)[property] = data[property];
+            }
+        }
+        return target;
     }
 
     public build(): any {
