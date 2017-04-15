@@ -2,9 +2,9 @@
   "name": "jsonmix",
   "version": "1.0.2",
   "description": "Easy to use deserialisation from JSON into JavaScript Objects complete with functions",
-  "main": "jsonmix.js",
+  "main": "dist/jsonmix.min.js",
   "scripts": {
-    "prepublish": "gulp build",
+    "prepare": "gulp build",
     "build": "gulp build",
     "test": "gulp test"
   },
