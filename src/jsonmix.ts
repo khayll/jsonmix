@@ -9,7 +9,7 @@ export default class JsonMix {
     private data: any;
 
     /**
-     * constructor is the only place to feed the jsno data
+     * constructor is the only place to feed the json data into
      * @param data either a JSON string or an object
      */
     constructor(data: any) {
@@ -23,7 +23,7 @@ export default class JsonMix {
     }
 
     /**
-     * use constructor to create object(s) at a given json path
+     * use the object constructor to mix them at a given json path
      * @param constructor used to create object
      * @param path json path from root to object(s) Example: employees.*
      */
@@ -72,7 +72,6 @@ export default class JsonMix {
             return data;
         }
         let target: T = new T();
-        // a shallow copy should ne enough, since the source is a JSON
         for (let property in data) {
             if (data.hasOwnProperty(property)) {
                 (<any>target)[property] = data[property];
