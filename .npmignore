@@ -1,0 +1,12 @@
+# Visit the git repo for sources
+/src
+/spec
+
+/.babelrc
+/.travis.yml
+/gulpfile.babel.js
+/playground.html
+/tsconfig.json
+
+!dist/jsonmix.js
+!dist/jsonmix.min.js
