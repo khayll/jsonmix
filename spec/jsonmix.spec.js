@@ -1,4 +1,4 @@
-var JsonMix = require('../dist/jsonmix').default;
+var JsonMix = require('../dist/jsonmix');
 
 var Department = function () { }
 Department.prototype.getTime = function () {
