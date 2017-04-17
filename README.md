@@ -9,7 +9,7 @@ Start with
 ```
 or
 ```
-let JsonMix = require('jsonmix').JsonMix;
+let JsonMix = require('jsonmix');
 ```
 
 Use your existing model objects, without any modification, for example:
@@ -45,7 +45,7 @@ With this simple tool you now have your JSON data deserialized into an object co
 console.log(mixed.employee.getName());
 ```
 
-## Parameter explained
+## Further examples
 
 A slightly more complex example would look like:
 ```
@@ -69,7 +69,6 @@ You can also use "*" in the path, and this will apply the remaining path to ever
 JsonMix(data).withObject(Comparable, "*.*.*").build();
 ```
 
-## More examples
 You can use playground.html as a tutorial, or just to play around with JsonMix.
   
  
