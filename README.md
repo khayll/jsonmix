@@ -23,7 +23,7 @@ Employee.prototype.getName = function() {
 
 And use your REST services, that go with your model: 
 ```
-{
+let json = {
 	"firstName": "John",
 	"lastName": "Doe",
 	"salary": 100000,
