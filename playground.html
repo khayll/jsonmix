@@ -1,49 +1,53 @@
 <html>
-	<head>
-		<script type="text/javascript" src="src/jsmix.js"></script>
-		<script type="text/javascript" src="test/helpers/Employee.js"></script>
-		<script type="text/javascript" src="test/helpers/Department.js"></script>
-		<script type="text/javascript" src="test/helpers/Pet.js"></script>
-	</head>
-	<body>
-		<script>
-			var sampleData = {
-				"employees": [
-					{
-						"firstName": "John",
-						"lastName": "Doe",
-						"salary": 120000,
-						"age": 33,
-						"pet": {
-							name: "Buggs Bunny",
-							like: "carrot"
-						}
-					},
-					{
-						"firstName": "Romeo",
-						"lastName": "Alfa",
-						"salary": 150000,
-						"age": 34,
-						"pet": {
-							name: "Jerry",
-							like: "cheese"
-						}
+
+<head>
+	<script type="text/javascript" src="dist/jsonmix.js"></script>
+	<script type="text/javascript" src="spec/helpers/Employee.js"></script>
+	<script type="text/javascript" src="spec/helpers/Department.js"></script>
+	<script type="text/javascript" src="spec/helpers/Pet.js"></script>
+</head>
+
+<body>
+	<script>
+		var sampleData = {
+			"employees": [
+				{
+					"firstName": "John",
+					"lastName": "Doe",
+					"salary": 120000,
+					"age": 33,
+					"pet": {
+						name: "Buggs Bunny",
+						like: "carrot"
 					}
-				],
-				"department": {
-					"name": "Most important ever",
-					"location": "Center of the World"
+				},
+				{
+					"firstName": "Romeo",
+					"lastName": "Alfa",
+					"salary": 150000,
+					"age": 34,
+					"pet": {
+						name: "Jerry",
+						like: "cheese"
+					}
 				}
-			}			
-			var result = JSMix(sampleData).withObject(Pet.prototype, "employees.*.pet").build();
-			console.log(result);
-			/*
-			var result = JSMix(sampleData)
-				.withObject(Employee.prototype, "employees")
-				.withObject(Pet.prototype, "employees.pet")
-				.build();
-			console.log(result);
-			*/
-		</script>
-	</body>
+			],
+			"department": {
+				"name": "Most important ever",
+				"location": "Center of the World"
+			}
+		};
+		
+		var result = JsonMix(sampleData).withObject(Pet, "employees.*.pet").build();
+		console.log(result);
+
+		var result = JsonMix(sampleData)
+			.withObject(Employee, "employees")
+			.withObject(Pet, "employees.pet")
+			.build();
+		console.log(result);
+
+	</script>
+</body>
+
 </html>

@@ -4,7 +4,16 @@
  * The result is an easy to use tool, that can transform data into model objects without the need to have any
  * extra modifications on the data or the model objects themselves.
  */
-export default class JsonMix {
+
+declare var exports: any;
+declare var define: any;
+declare var module: any;
+
+(function (global: any, factory: any) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory :
+        typeof define === 'function' && define.amd ? define(factory) :
+            global.JsonMix = factory
+}(this, class JsonMix {
 
     private data: any;
 
@@ -103,4 +112,4 @@ export default class JsonMix {
     }
 
 }
-
+    ));

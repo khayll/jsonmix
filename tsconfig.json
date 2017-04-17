@@ -5,7 +5,7 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "declaration": true,
-    "module": "umd",
+    "module": "none",
     "outDir": "dist",
     "lib": [
       "ES2015",
