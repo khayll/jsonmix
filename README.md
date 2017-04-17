@@ -45,6 +45,37 @@ With this simple tool you now have your JSON data deserialized into an object co
 console.log(mixed.employee.getName());
 ```
 
+## Multiple objects in a JSON
+It's not uncommon to have multiple objects in a single JSON file, for example if you have an array of Employees in a JSON:
+
+```
+let json = {
+	employees: [
+		{
+			"firstName": "John",
+			"lastName": "Doe",
+			"salary": 100000,
+			"age": 33			
+		},
+		{
+			"firstName": "John",
+			"lastName": "Malkowich",
+			"salary": 50000,
+			"age": 52
+		},
+	]
+}
+```
+
+To apply Epmloyee to the entire array:
+
+```
+let mixed = JsonMix(json)
+	.withObject(Employee, "employees")
+	.build();
+});
+```
+
 ## Further examples
 
 A slightly more complex example would look like:
