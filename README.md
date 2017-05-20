@@ -36,7 +36,6 @@ Finally use JsonMix to deserialize the JSON into model objects like this:
 let employee = JsonMix(json) // json contains the pure data
 	.withObject(Employee) // Employee is your object constructor
 	.build(); // this may seems unecessary until you have more than one objects in the JSON, see later
-});
 ```
 
 With this simple tool you now have your JSON data deserialized into an object constructed from you model.
