@@ -1,6 +1,6 @@
 {
   "name": "jsonmix",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Easy to use deserialisation from JSON into JavaScript Objects complete with functions",
   "main": "dist/jsonmix.min.js",
   "scripts": {
