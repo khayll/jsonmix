@@ -18,7 +18,6 @@ declare var module: any;
     private data: any;
 
     /**
-     * constructor is the only place to feed the json data into
      * @param data either a JSON string or an object
      */
     constructor(data: any) {
@@ -32,8 +31,7 @@ declare var module: any;
     }
 
     /**
-     * use the object constructor to mix them at a given json path
-     * @param constructor used to create object
+     * @param T used to create object
      * @param path json path from root to object(s) Example: employees.*
      */
     public withObject<T>(T: new () => T, path: string): JsonMix {
@@ -44,6 +42,10 @@ declare var module: any;
         }
         return this;
     }
+
+    public build(): any {
+        return this.data;
+    }    
 
     private mixRecursive<T>(T: new () => T, parent: any, parts: Array<string>): any {
         const newParts = Array.from(parts);
@@ -87,10 +89,6 @@ declare var module: any;
             }
         }
         return target;
-    }
-
-    public build(): any {
-        return this.data;
     }
 
     private emptyPath(path: string): boolean {
