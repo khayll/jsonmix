@@ -5,6 +5,7 @@
   "main": "dist/jsonmix.min.js",
   "scripts": {
     "prepare": "gulp build",
+    "build": "gulp build",
     "test": "gulp test"
   },
   "repository": {
