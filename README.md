@@ -1,60 +1,62 @@
-JsonMix [![Build Status](https://travis-ci.org/khayll/jsonmix.svg?branch=master)](https://travis-ci.org/khayll/jsonmix)
-========
+#JsonMix
+
 JsonMix provides a kind of deserialisation from JSON into JavaScript Objects complete with functions.
 
 ## How to use
-Start with
-```
-<script type="text/javascript" src="jsonmix.min.js"></script>
-```
-or
-```
-let JsonMix = require('jsonmix');
+
+```ts
+import { JsonMix } from '@creately/jsonmix';
 ```
 
 Use your existing model objects, without any modification, for example:
-```
-var Employee = function() {}
 
-Employee.prototype.getName = function() {
-	return this.firstName + ' ' + this.lastName;
+```ts
+class Employee {
+  public firstName: string;
+  public lastName: string;
+
+  public getName() {
+    return this.firstName + ' ' + this.lastName;
+  }
 }
 ```
 
-And use your REST services, that go with your model: 
-```
+And use your REST services, that go with your model:
+
+```ts
 let json = {
 	"firstName": "John",
 	"lastName": "Doe",
 	"salary": 100000,
-	"age": 33	
+	"age": 33
 }
 ```
 
 Finally use JsonMix to deserialize the JSON into model objects like this:
-```
-let employee = JsonMix(json) // json contains the pure data
+
+```ts
+let employee = new JsonMix(json) // json contains the pure data
 	.withObject(Employee) // Employee is your object constructor
 	.build(); // this may seems unecessary until you have more than one objects in the JSON, see later
 ```
 
 With this simple tool you now have your JSON data deserialized into an object constructed from you model.
 
-```
+```ts
 console.log(employee.getName());
 ```
 
 ## Multiple objects in a JSON
 It's not uncommon to have multiple objects in a single JSON file, for example if you have an array of Employees in a JSON:
 
-```
+```ts
 let json = {
 	employees: [
 		{
 			"firstName": "John",
 			"lastName": "Doe",
 			"salary": 100000,
-			"age": 33			
+			"age": 33
 		},
 		{
 			"firstName": "John",
@@ -68,8 +70,8 @@ let json = {
 
 To apply Epmloyee to the entire array:
 
-```
-let mixed = JsonMix(json)
+```ts
+let mixed = new JsonMix(json)
 	.withObject(Employee, "employees")
 	.build();
 });
@@ -78,14 +80,15 @@ let mixed = JsonMix(json)
 ## Further examples
 
 A slightly more complex example would look like:
-```
-var result = JsonMix(data) // start with the data
+
+```ts
+var result = new JsonMix(data) // start with the data
 	.withObject(Employee, "employees") // mix Employee on a path
 	.withObject(Pet, "employees.pet") // mix Pet on a different path
 	.build(); // and get the result
-	
-//now you can use the model functions 
-console.log(result.epmloyees[1].getName()); 
+
+//now you can use the model functions
+console.log(result.epmloyees[1].getName());
 ```
 
 So the parameter to the JsonMix(data) call, data, could be a JSON string, or an object.
@@ -94,11 +97,8 @@ The withObject(prototype, path) call is the one to define class mappings.
 Here "path" can be any chain of nested objects separated with a dot. For example in this case "epmloyees.pet".
 JsonMix will find out if an object is an array, and will recursively apply the remaining part of the path to every item in it.
 You can also use "*" in the path, and this will apply the remaining path to every item in the object (even if it's not an array).
-```
-//this recursively applies the same prototype 3 levels deep
-JsonMix(data).withObject(Comparable, "*.*.*").build();
-```
 
-You can use playground.html as a tutorial, or just to play around with JsonMix.
-  
- 
+```ts
+//this recursively applies the same prototype 3 levels deep
+new JsonMix(data).withObject(Comparable, "*.*.*").build();
+```

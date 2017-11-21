@@ -1,12 +1,6 @@
-# Visit the git repo for sources
-/src
-/spec
+src
+__tests__
+coverage
 
-/.babelrc
-/.travis.yml
-/gulpfile.babel.js
-/playground.html
-/tsconfig.json
-
-!dist/jsonmix.js
-!dist/jsonmix.min.js
+karma.conf.js
+tsconfig.json

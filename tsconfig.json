@@ -1,20 +1,24 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
-    "target": "es3",
-    "sourceMap": true,
-    "experimentalDecorators": true,
+    "alwaysStrict": true,
     "declaration": true,
-    "module": "none",
-    "outDir": "dist",
-    "lib": [
-      "ES2015",
-      "DOM",
-      "ES5",
-      "ScriptHost"
-    ]
-  },
-  "files": [
-    "src/jsonmix.ts"
-  ]
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [ "dom", "es2015" ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "es5",
+    "typeRoots": [ "node_modules/@types" ]
+  }
 }
