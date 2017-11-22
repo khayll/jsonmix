@@ -1,5 +1,13 @@
+export type Factory<T> = ((data: any) => T | Promise<T>);
+export type Constructor<T> = new () => T;
+
+export type Options<T> = {
+  type?: Constructor<T>;
+  factory?: Factory<T>;
+};
+
 export class JsonMix {
-  private data: any;
+  private promise: Promise<any>;
 
   /**
    * @param data either a JSON string or an object
@@ -11,64 +19,77 @@ export class JsonMix {
     if (!(data instanceof Object)) {
       data = JSON.parse(data);
     }
-    this.data = data || {};
+    this.promise = Promise.resolve(data || {});
   }
 
   /**
-   * @param T used to create object
+   * @param type type of factory used to create the object
    * @param path json path from root to object(s) Example: employees.*
    */
-  public withObject<T>(T: new () => T, path?: string): JsonMix {
-    if (!path) {
-      this.data = this.mix(T, this.data);
+  public withObject<T>(typeOrOptions: Constructor<T> | Options<T>, path?: string): JsonMix {
+    let options: Options<T>;
+    if (typeof typeOrOptions === 'function') {
+      options = { type: typeOrOptions };
     } else {
-      this.data = this.mixRecursive(T, this.data, path.split('.'));
+      options = typeOrOptions;
+    }
+    if (!path) {
+      this.promise = this.promise.then(data => this.mix(options, data));
+    } else {
+      this.promise = this.promise.then(data => this.mixRecursive(options, data, path.split('.')));
     }
     return this;
   }
 
-  public build(): any {
-    return this.data;
+  public build(): Promise<any> {
+    return this.promise;
   }
 
-  private mixRecursive<T>(T: new () => T, parent: any, parts: Array<string>): any {
+  private async mixRecursive<T>(options: Options<T>, parent: any, parts: Array<string>): Promise<T> {
     const newParts = Array.from(parts);
     const currentPart = newParts.shift();
-
     if (!currentPart || parts.length === 0) {
-      return this.mix(T, parent);
+      return await this.mix(options, parent);
     }
     if (this.isObject(parent[currentPart]) || currentPart === '*') {
       if (!this.isArray(parent[currentPart]) && currentPart !== '*') {
-        parent[currentPart] = this.mixRecursive(T, parent[currentPart], newParts);
+        parent[currentPart] = await this.mixRecursive(options, parent[currentPart], newParts);
       } else {
         if (currentPart === '*' && this.isObject(parent)) {
           for (let property in parent) {
             if (parent.hasOwnProperty(property)) {
-              parent[property] = this.mixRecursive(T, parent[property], newParts);
+              parent[property] = await this.mixRecursive(options, parent[property], newParts);
             }
           }
         } else if (this.isArray(parent[currentPart])) {
           if (newParts[0] === '*') {
             newParts.shift();
           }
-          parent[currentPart].forEach((_value: any, index: number) => {
-            parent[currentPart][index] = this.mixRecursive(T, parent[currentPart][index], newParts);
-          });
+          const array: any[] = parent[currentPart];
+          for (let i = 0; i < array.length; ++i) {
+            array[i] = await this.mixRecursive(options, parent[currentPart][i], newParts);
+          }
         }
       }
     }
     return parent;
   }
 
-  private mix<T>(T: new () => T, data: any): any {
+  private async mix<T>(options: Options<T>, data: any): Promise<T> {
     if (!this.isObject(data)) {
       return data;
     }
-    let target: T = new T();
-    for (let property in data) {
+    let target: T;
+    if (options.type) {
+      target = new options.type();
+    } else if (options.factory) {
+      target = await options.factory(data);
+    } else {
+      return data;
+    }
+    for (const property in data) {
       if (data.hasOwnProperty(property)) {
-        (<any>target)[property] = data[property];
+        (target as any)[property] = data[property];
       }
     }
     return target;

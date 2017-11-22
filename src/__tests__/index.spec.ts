@@ -26,7 +26,7 @@ class Pet {
   }
 }
 
-var sampleData = {
+const sampleData = {
   employees: [
     {
       firstName: 'John',
@@ -59,7 +59,7 @@ var sampleData = {
   },
 };
 
-var sampleData2 = {
+const sampleData2 = {
   name: 'Most important ever',
   location: 'Center of the World',
   pet: {
@@ -75,8 +75,8 @@ describe('General', function() {
     data = JSON.parse(JSON.stringify(sampleData2));
   });
 
-  it("it's type is department", function() {
-    var result = new JsonMix(data).withObject(Department).build();
+  it("it's type is department", async function() {
+    const result = await new JsonMix(data).withObject(Department).build();
     expect(result).toEqual(jasmine.any(Department));
   });
 });
@@ -88,18 +88,33 @@ describe('Non collection objects', function() {
     data = JSON.parse(JSON.stringify(sampleData2));
   });
 
-  it('Mix single data object with prototype', function() {
-    var result = new JsonMix(data).withObject(Department).build();
+  it('Mix single data object with prototype', async function() {
+    const result = await new JsonMix(data).withObject(Department).build();
     expect(result.getTime()).toContain('Time at Center of the World is');
   });
 
-  it('Mix single data object with prototype inside another object', function() {
-    var result = new JsonMix(data).withObject(Pet, 'pet').build();
+  it('Mix single data object with prototype (options.type)', async function() {
+    const result = await new JsonMix(data).withObject({ type: Department }).build();
+    expect(result.getTime()).toContain('Time at Center of the World is');
+  });
+
+  it('Mix single data object with prototype (options.factory)', async function() {
+    const result = await new JsonMix(data).withObject({ factory: () => new Department() }).build();
+    expect(result.getTime()).toContain('Time at Center of the World is');
+  });
+
+  it('Mix single data object with prototype (options.factory async)', async function() {
+    const result = await new JsonMix(data).withObject({ factory: () => Promise.resolve(new Department()) }).build();
+    expect(result.getTime()).toContain('Time at Center of the World is');
+  });
+
+  it('Mix single data object with prototype inside another object', async function() {
+    const result = await new JsonMix(data).withObject(Pet, 'pet').build();
     expect(result.pet.getLike()).toContain('Tom likes milk');
   });
 
-  it('Mix multiple objects', function() {
-    var result = new JsonMix(data)
+  it('Mix multiple objects', async function() {
+    const result = await new JsonMix(data)
       .withObject(Department)
       .withObject(Pet, 'pet')
       .build();
@@ -107,8 +122,8 @@ describe('Non collection objects', function() {
     expect(result.pet.getLike()).toContain('Tom likes milk');
   });
 
-  it('Mix multiple objects in inverse order', function() {
-    var result = new JsonMix(data)
+  it('Mix multiple objects in inverse order', async function() {
+    const result = await new JsonMix(data)
       .withObject(Pet, 'pet')
       .withObject(Department)
       .build();
@@ -116,8 +131,8 @@ describe('Non collection objects', function() {
     expect(result.pet.getLike()).toContain('Tom likes milk');
   });
 
-  it('Input is a JSON string', function() {
-    var result = new JsonMix('{"department":{"location":"here"}}').withObject(Department, 'department').build();
+  it('Input is a JSON string', async function() {
+    const result = await new JsonMix('{"department":{"location":"here"}}').withObject(Department, 'department').build();
     expect(result.department.getTime()).toContain('Time at here is');
   });
 });
@@ -129,37 +144,37 @@ describe('JsonMix - collections', function() {
     data = JSON.parse(JSON.stringify(sampleData));
   });
 
-  it('Mix every object in root object, using * in the path', function() {
-    var result = new JsonMix(data).withObject(Department, '*').build();
+  it('Mix every object in root object, using * in the path', async function() {
+    const result = await new JsonMix(data).withObject(Department, '*').build();
     expect(result.employees.getTime()).toContain('Time at undefined is');
     expect(result.department.getTime()).toContain('Time at Center of the World is');
   });
 
-  it('Mix array objects', function() {
-    var result = new JsonMix(data).withObject(Employee, 'employees').build();
+  it('Mix array objects', async function() {
+    const result = await new JsonMix(data).withObject(Employee, 'employees').build();
     expect(result.employees[0].getName()).toContain('John Doe');
   });
 
-  it('Mix non toplevel objects (inside arrays)', function() {
-    var result = new JsonMix(data).withObject(Pet, 'employees.pet').build();
+  it('Mix non toplevel objects (inside arrays)', async function() {
+    const result = await new JsonMix(data).withObject(Pet, 'employees.pet').build();
     expect(result.employees[0].pet.getLike()).toContain('Buggs Bunny likes carrot');
     expect(result.employees[1].pet.getLike()).toContain('Jerry likes cheese');
   });
 
-  it('Mix non toplevel objects (inside arrays), using * in the path', function() {
-    var result = new JsonMix(data).withObject(Pet, 'employees.*.pet').build();
+  it('Mix non toplevel objects (inside arrays), using * in the path', async function() {
+    const result = await new JsonMix(data).withObject(Pet, 'employees.*.pet').build();
     expect(result.employees[0].pet.getLike()).toContain('Buggs Bunny likes carrot');
     expect(result.employees[1].pet.getLike()).toContain('Jerry likes cheese');
   });
 
-  it('Heavy use of * in the path', function() {
-    var result = new JsonMix(data).withObject(Pet, '*.*.*').build();
+  it('Heavy use of * in the path', async function() {
+    const result = await new JsonMix(data).withObject(Pet, '*.*.*').build();
     expect(result.employees[0].pet.getLike()).toContain('Buggs Bunny likes carrot');
     expect(result.employees[1].pet.getLike()).toContain('Jerry likes cheese');
   });
 
-  it('Mix multiple levels ', function() {
-    var result = new JsonMix(data)
+  it('Mix multiple levels ', async function() {
+    const result = await new JsonMix(data)
       .withObject(Employee, 'employees')
       .withObject(Pet, 'employees.pet')
       .build();
@@ -167,8 +182,8 @@ describe('JsonMix - collections', function() {
     expect(result.employees[1].pet.getLike()).toContain('Jerry likes cheese');
   });
 
-  it('Mix multiple levels in inverse order', function() {
-    var result = new JsonMix(data)
+  it('Mix multiple levels in inverse order', async function() {
+    const result = await new JsonMix(data)
       .withObject(Pet, 'employees.pet')
       .withObject(Employee, 'employees')
       .build();
