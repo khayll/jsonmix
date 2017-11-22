@@ -1,4 +1,4 @@
-#JsonMix
+# JsonMix
 
 JsonMix provides a kind of deserialisation from JSON into JavaScript Objects complete with functions.
 
@@ -8,12 +8,16 @@ JsonMix provides a kind of deserialisation from JSON into JavaScript Objects com
 import { JsonMix } from '@creately/jsonmix';
 ```
 
-Use your existing model objects, without any modification, for example:
+Use your existing model objects, without any modification. For example:
 
 ```ts
 class Employee {
   public firstName: string;
   public lastName: string;
+
+  constructor(public id: string) {
+	//...
+  }
 
   public getName() {
     return this.firstName + ' ' + this.lastName;
@@ -23,21 +27,19 @@ class Employee {
 
 And use your REST services, that go with your model:
 
-```ts
-let json = {
+```json
+{
+	"id": "001",
 	"firstName": "John",
-	"lastName": "Doe",
-	"salary": 100000,
-	"age": 33
+	"lastName": "Doe"
 }
 ```
 
 Finally use JsonMix to deserialize the JSON into model objects like this:
 
 ```ts
-let employee = new JsonMix(json) // json contains the pure data
-	.withObject(Employee) // Employee is your object constructor
-	.build(); // this may seems unecessary until you have more than one objects in the JSON, see later
+const mixer = new JsonMix(json);
+const employee = await mixer.withObject(Employee).build();
 ```
 
 With this simple tool you now have your JSON data deserialized into an object constructed from you model.
@@ -46,49 +48,44 @@ With this simple tool you now have your JSON data deserialized into an object co
 console.log(employee.getName());
 ```
 
-## Multiple objects in a JSON
-It's not uncommon to have multiple objects in a single JSON file, for example if you have an array of Employees in a JSON:
-
-```ts
-let json = {
-	employees: [
-		{
-			"firstName": "John",
-			"lastName": "Doe",
-			"salary": 100000,
-			"age": 33
-		},
-		{
-			"firstName": "John",
-			"lastName": "Malkowich",
-			"salary": 50000,
-			"age": 52
-		},
-	]
-}
-```
-
-To apply Epmloyee to the entire array:
-
-```ts
-let mixed = new JsonMix(json)
-	.withObject(Employee, "employees")
-	.build();
-});
-```
-
 ## Using factories to create models
 
 A factory can also be used to create models.
 
 ```ts
-var result = new JsonMix(data) // start with the data
-	.withObject(data => new Employee(), "employees") // use a factory
-	.withObject(data => Promise.resolve(new Pet()), "employees.pet") // factory returns a promise
-	.build(); // and get the result
+const mixer = new JsonMix(json);
+const employee = await mixer.withObject(data => new Employee(data.id)).build();
+```
 
-//now you can use the model functions
-console.log(result.epmloyees[1].getName());
+The factory can also return a prosmise which resolves to the model.
+
+## Multiple objects in a JSON
+
+It's not uncommon to have multiple objects in a single JSON file, for example if you have an array of Employees in a JSON:
+
+```json
+{
+	"employees": [
+		{
+			"id": "001",
+			"firstName": "John",
+			"lastName": "Doe"
+		},
+		{
+			"id": "002",
+			"firstName": "John",
+			"lastName": "Malkowich"
+		},
+	]
+}
+```
+
+To apply Epmloyee to the entire array available on given path:
+
+```ts
+const mixer = new JsonMix(json);
+const employees = await mixer.withObject(Employee, 'employees').build();
+});
 ```
 
 ## Further examples
@@ -96,23 +93,22 @@ console.log(result.epmloyees[1].getName());
 A slightly more complex example would look like:
 
 ```ts
-var result = new JsonMix(data) // start with the data
-	.withObject(Employee, "employees") // mix Employee on a path
-	.withObject(Pet, "employees.pet") // mix Pet on a different path
-	.build(); // and get the result
+const mixer = new JsonMix(json);
+const result = await mixer
+	.withObject(Employee, 'employees')
+	.withObject(Pet, 'employees.pet')
+	.build();
 
-//now you can use the model functions
-console.log(result.epmloyees[1].getName());
+// now you can use the nested model functions
+console.log(result.employees[1].pet.getName());
 ```
 
-So the parameter to the JsonMix(data) call, data, could be a JSON string, or an object.
-The build() just returns the object with all classes mixed.
-The withObject(prototype, path) call is the one to define class mappings.
-Here "path" can be any chain of nested objects separated with a dot. For example in this case "epmloyees.pet".
+The "path" can be any chain of nested objects separated with a dot. For example in this case "epmloyees.pet".
 JsonMix will find out if an object is an array, and will recursively apply the remaining part of the path to every item in it.
 You can also use "*" in the path, and this will apply the remaining path to every item in the object (even if it's not an array).
 
 ```ts
-//this recursively applies the same prototype 3 levels deep
-new JsonMix(data).withObject(Comparable, "*.*.*").build();
+// this recursively applies the same prototype 3 levels deep
+const mixer = new JsonMix(json);
+const result = await mixer.withObject(Comparable, '*.*.*').build();
 ```
