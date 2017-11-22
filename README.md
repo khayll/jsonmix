@@ -77,6 +77,20 @@ let mixed = new JsonMix(json)
 });
 ```
 
+## Using factories to create models
+
+A factory can also be used to create models.
+
+```ts
+var result = new JsonMix(data) // start with the data
+	.withObject(data => new Employee(), "employees") // use a factory
+	.withObject(data => Promise.resolve(new Pet()), "employees.pet") // factory returns a promise
+	.build(); // and get the result
+
+//now you can use the model functions
+console.log(result.epmloyees[1].getName());
+```
+
 ## Further examples
 
 A slightly more complex example would look like:
