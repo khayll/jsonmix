@@ -1,4 +1,11 @@
-export type Factory<T> = ((data: any) => T | Promise<T>);
+import * as isPromise from 'is-promise';
+import * as isObservable from 'is-observable';
+
+export interface Observable<T> {
+  subscribe: (next: (val: T) => any, error: (err: any) => any, complete: () => any) => any;
+};
+
+export type Factory<T> = ((data: any) => T | Promise<T> | Observable<T>);
 export type Constructor<T> = new () => T;
 
 export type Options<T> = {
@@ -83,7 +90,21 @@ export class JsonMix {
     if (options.type) {
       target = new options.type();
     } else if (options.factory) {
-      target = await options.factory(data);
+      const result = options.factory(data);
+      if (isObservable(result)) {
+        target = await new Promise<T>((resolve, reject) => {
+          let currentValue: T;
+          (result as Observable<T>).subscribe(
+            val => currentValue = val,
+            err => reject(err),
+            () => resolve(currentValue)
+          );
+        });
+      } else if (isPromise(result)) {
+        target = await (result as Promise<T>);
+      } else {
+        target = result as T;
+      }
     } else {
       return data;
     }

@@ -1,4 +1,5 @@
-import { JsonMix } from '../';
+import { JsonMix, Observable } from '../';
+import symbolObservable from 'symbol-observable';
 
 class Department {
   location: string;
@@ -98,13 +99,27 @@ describe('Non collection objects', function() {
     expect(result.getTime()).toContain('Time at Center of the World is');
   });
 
-  it('Mix single data object with prototype (options.factory)', async function() {
-    const result = await new JsonMix(data).withObject({ factory: () => new Department() }).build();
+  it('Mix single data object with prototype (options.factory => value)', async function() {
+    const value = new Department();
+    const result = await new JsonMix(data).withObject({ factory: () => value }).build();
     expect(result.getTime()).toContain('Time at Center of the World is');
   });
 
-  it('Mix single data object with prototype (options.factory async)', async function() {
-    const result = await new JsonMix(data).withObject({ factory: () => Promise.resolve(new Department()) }).build();
+  it('Mix single data object with prototype (options.factory => promise)', async function() {
+    const promise = Promise.resolve(new Department());
+    const result = await new JsonMix(data).withObject({ factory: () => promise }).build();
+    expect(result.getTime()).toContain('Time at Center of the World is');
+  });
+
+  it('Mix single data object with prototype (options.factory => observable)', async function() {
+    const observable: Observable<Department> = {
+      [symbolObservable]: true,
+      subscribe: (next, _err, complete) => {
+        next(new Department());
+        complete();
+      },
+    };
+    const result = await new JsonMix(data).withObject({ factory: () => observable }).build();
     expect(result.getTime()).toContain('Time at Center of the World is');
   });
 
