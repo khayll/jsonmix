@@ -3,7 +3,7 @@ import * as isObservable from 'is-observable';
 
 export interface Observable<T> {
   subscribe: (next: (val: T) => any, error: (err: any) => any, complete: () => any) => any;
-};
+}
 
 export type Factory<T> = ((data: any) => T | Promise<T> | Observable<T>);
 export type Constructor<T> = new () => T;
@@ -95,7 +95,7 @@ export class JsonMix {
         target = await new Promise<T>((resolve, reject) => {
           let currentValue: T;
           (result as Observable<T>).subscribe(
-            val => currentValue = val,
+            val => (currentValue = val),
             err => reject(err),
             () => resolve(currentValue)
           );
