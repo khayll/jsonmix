@@ -1,11 +1,12 @@
 import * as isPromise from 'is-promise';
 import * as isObservable from 'is-observable';
+import { Observable } from 'rxjs';
 
-export interface Observable<T> {
+export interface IObservable<T> {
   subscribe: (next: (val: T) => any, error: (err: any) => any, complete: () => any) => any;
 }
 
-export type Factory<T> = ((data: any) => T | Promise<T> | Observable<T>);
+export type Factory<T> = ((data: any) => T | Promise<T> | IObservable<T>);
 export type Constructor<T> = new () => T;
 
 export type Options<T> = {
@@ -91,10 +92,10 @@ export class JsonMix {
       target = new options.type();
     } else if (options.factory) {
       const result = options.factory(data);
-      if (isObservable(result)) {
+      if (isObservable(result) || result instanceof Observable ) {
         target = await new Promise<T>((resolve, reject) => {
           let currentValue: T;
-          (result as Observable<T>).subscribe(
+          (result as IObservable<T>).subscribe(
             val => (currentValue = val),
             err => reject(err),
             () => resolve(currentValue)

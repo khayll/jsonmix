@@ -1,6 +1,6 @@
 {
   "name": "@creately/jsonmix",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Easy to use deserialisation from JSON into JavaScript Objects complete with functions",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -39,7 +39,8 @@
     "webpack": "^3.8.1"
   },
   "dependencies": {
-    "is-observable": "^1.0.0",
-    "is-promise": "^2.1.0"
+    "is-observable": "^1.1.0",
+    "is-promise": "^2.1.0",
+    "rxjs": "^6.0.0"
   }
 }
