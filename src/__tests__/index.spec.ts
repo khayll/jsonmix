@@ -1,5 +1,4 @@
 import { JsonMix } from '../';
-// import symbolObservable from 'symbol-observable';
 import { of } from 'rxjs';
 
 class Department {
@@ -113,13 +112,6 @@ describe('Non collection objects', function() {
   });
 
   it('Mix single data object with prototype (options.factory => observable)', async function() {
-    // const observable: Observable<Department> = {
-    //   [symbolObservable]: true,
-    //   subscribe: (next, _err, complete) => {
-    //     next(new Department());
-    //     complete();
-    //   },
-    // };
     const observable = of(new Department());
     const result = await new JsonMix(data).withObject({ factory: () => observable }).build();
     expect(result.getTime()).toContain('Time at Center of the World is');
