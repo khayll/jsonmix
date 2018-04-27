@@ -92,7 +92,7 @@ export class JsonMix {
       target = new options.type();
     } else if (options.factory) {
       const result = options.factory(data);
-      if (isObservable(result) || result instanceof Observable ) {
+      if (isObservable(result) || result instanceof Observable) {
         target = await new Promise<T>((resolve, reject) => {
           let currentValue: T;
           (result as IObservable<T>).subscribe(
