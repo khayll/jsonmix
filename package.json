@@ -39,7 +39,8 @@
     "webpack": "^3.8.1"
   },
   "dependencies": {
-    "is-observable": "^1.0.0",
-    "is-promise": "^2.1.0"
+    "is-observable": "^1.1.0",
+    "is-promise": "^2.1.0",
+    "rxjs": "^6.0.0"
   }
 }

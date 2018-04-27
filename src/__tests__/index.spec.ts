@@ -1,8 +1,9 @@
-import { JsonMix, Observable } from '../';
-import symbolObservable from 'symbol-observable';
+import { JsonMix } from '../';
+// import symbolObservable from 'symbol-observable';
+import { of } from 'rxjs';
 
 class Department {
-  location: string;
+  location: string = 'Colombo';
 
   getTime() {
     return 'Time at ' + this.location + ' is ' + new Date().toUTCString();
@@ -10,8 +11,8 @@ class Department {
 }
 
 class Employee {
-  firstName: string;
-  lastName: string;
+  firstName: string = '';
+  lastName: string = '';
 
   getName() {
     return this.firstName + ' ' + this.lastName;
@@ -19,8 +20,8 @@ class Employee {
 }
 
 class Pet {
-  name: string;
-  like: string;
+  name: string = '';
+  like: string = '';
 
   getLike() {
     return this.name + ' likes ' + this.like;
@@ -112,13 +113,14 @@ describe('Non collection objects', function() {
   });
 
   it('Mix single data object with prototype (options.factory => observable)', async function() {
-    const observable: Observable<Department> = {
-      [symbolObservable]: true,
-      subscribe: (next, _err, complete) => {
-        next(new Department());
-        complete();
-      },
-    };
+    // const observable: Observable<Department> = {
+    //   [symbolObservable]: true,
+    //   subscribe: (next, _err, complete) => {
+    //     next(new Department());
+    //     complete();
+    //   },
+    // };
+    const observable = of(new Department());
     const result = await new JsonMix(data).withObject({ factory: () => observable }).build();
     expect(result.getTime()).toContain('Time at Center of the World is');
   });
@@ -161,7 +163,7 @@ describe('JsonMix - collections', function() {
 
   it('Mix every object in root object, using * in the path', async function() {
     const result = await new JsonMix(data).withObject(Department, '*').build();
-    expect(result.employees.getTime()).toContain('Time at undefined is');
+    expect(result.employees.getTime()).toContain('Time at Colombo is');
     expect(result.department.getTime()).toContain('Time at Center of the World is');
   });
 
