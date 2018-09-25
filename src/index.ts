@@ -1,5 +1,6 @@
 import * as isPromise from 'is-promise';
 import * as isObservable from 'is-observable';
+import * as mergeWith from 'lodash.mergewith';
 import { Observable } from 'rxjs';
 
 export interface IObservable<T> {
@@ -109,11 +110,12 @@ export class JsonMix {
     } else {
       return data;
     }
-    for (const property in data) {
-      if (data.hasOwnProperty(property)) {
-        (target as any)[property] = data[property];
+    mergeWith(target, data, (_obj: any, src: any) => {
+      if (Array.isArray(src)) {
+        return src;
       }
-    }
+      return undefined;
+    });
     return target;
   }
 
