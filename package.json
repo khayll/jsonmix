@@ -41,6 +41,7 @@
   "dependencies": {
     "is-observable": "^1.1.0",
     "is-promise": "^2.1.0",
+    "lodash.mergewith": "^4.6.1",
     "rxjs": "^6.0.0"
   }
 }

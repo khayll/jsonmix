@@ -3,6 +3,7 @@ import { of } from 'rxjs';
 
 class Department {
   location: string = 'Colombo';
+  tags: string[] = ['a', 'b', 'c', 'd'];
 
   getTime() {
     return 'Time at ' + this.location + ' is ' + new Date().toUTCString();
@@ -67,6 +68,10 @@ const sampleData2 = {
     name: 'Tom',
     like: 'milk',
   },
+  tags: [
+    'test',
+    'department',
+  ],
 };
 
 describe('General', function() {
@@ -79,6 +84,11 @@ describe('General', function() {
   it("it's type is department", async function() {
     const result = await new JsonMix(data).withObject(Department).build();
     expect(result).toEqual(jasmine.any(Department));
+  });
+
+  it("it should replace arrays", async function() {
+    const result = await new JsonMix(data).withObject(Department).build();
+    expect(result.tags).toEqual(['test', 'department']);
   });
 });
 
