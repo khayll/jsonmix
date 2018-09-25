@@ -1,6 +1,6 @@
 {
   "name": "@creately/jsonmix",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "Easy to use deserialisation from JSON into JavaScript Objects complete with functions",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
